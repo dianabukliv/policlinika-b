@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const app = express();
 const port = 5050;
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.use(cors());
 
@@ -14,20 +16,16 @@ app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`listening on ${port}`));
 
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'Поліклініка',
-});
+const connection = mysql.createConnection(
+  process.env.DATABASE_URL
+);
 
 
 // лікар
 app.get('/doctor/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
 
+  
     connection.query(
       'SELECT * FROM `Лікар` WHERE 1;',
       (err, rows) => {
@@ -39,12 +37,11 @@ app.get('/doctor/', (req, res) => {
         }
       }
     );
-  });
+    } catch (e) {}
 });
 
 app.post('/create/doctor/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
 
     const values = req.body;
 
@@ -58,12 +55,11 @@ app.post('/create/doctor/', (req, res) => {
         res.status(500).json({ message: err.message });
       }
     });
-  });
+  } catch(e) {}
 });
 
 app.delete('/delete/doctor/:pk', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
     console.log(req.params.pk)
     connection.query(
       'DELETE FROM `Лікар` WHERE `id_лікар` = ?',
@@ -79,14 +75,13 @@ app.delete('/delete/doctor/:pk', (req, res) => {
         }
       }
     );
-  });
+    } catch (e) {}
 });
 
 
 // пацієнт
 app.get('/patient/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
 
     connection.query(
       'SELECT * FROM `Пацієнт` WHERE 1;',
@@ -99,12 +94,11 @@ app.get('/patient/', (req, res) => {
         }
       }
     );
-  });
+    } catch (e) {}
 });
 
 app.post('/create/patient/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
 
     const values = req.body;
 
@@ -118,12 +112,11 @@ app.post('/create/patient/', (req, res) => {
         res.status(500).json({ message: err.message });
       }
     });
-  });
+  } catch (e) {}
 });
 
 app.delete('/delete/patient/:pk', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
     console.log(req.params.pk)
     connection.query(
       'DELETE FROM `Пацієнт` WHERE `id_пацієнт` = ?',
@@ -139,14 +132,13 @@ app.delete('/delete/patient/:pk', (req, res) => {
         }
       }
     );
-  });
+  } catch (e) {} 
 });
 
 
 // прийом
 app.get('/reception/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
 
     connection.query(
       'SELECT * FROM `Прийом` WHERE 1;',
@@ -159,13 +151,11 @@ app.get('/reception/', (req, res) => {
         }
       }
     );
-  });
+  } catch (e) {}
 });
 
 app.post('/create/reception/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
-
+  try {
     const values = req.body;
 
     connection.query('INSERT INTO `Прийом` SET ?', values, (err, rows) => {
@@ -178,12 +168,11 @@ app.post('/create/reception/', (req, res) => {
         res.status(500).json({ message: err.message });
       }
     });
-  });
+  } catch (e) {}
 });
 
 app.delete('/delete/reception/:pk', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
     console.log(req.params.pk)
     connection.query(
       'DELETE FROM `Прийом` WHERE `id_прийом` = ?',
@@ -199,14 +188,13 @@ app.delete('/delete/reception/:pk', (req, res) => {
         }
       }
     );
-  });
+  } catch (e) {}
 });
 
 
 // діагноз
 app.get('/diagnosis/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
 
     connection.query(
       'SELECT * FROM `Діагноз` WHERE 1;',
@@ -219,13 +207,11 @@ app.get('/diagnosis/', (req, res) => {
         }
       }
     );
-  });
+  } catch (e) {}
 });
 
 app.post('/create/diagnosis/', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
-
+  try {
     const values = req.body;
 
     connection.query('INSERT INTO `Діагноз` SET ?', values, (err, rows) => {
@@ -238,12 +224,11 @@ app.post('/create/diagnosis/', (req, res) => {
         res.status(500).json({ message: err.message });
       }
     });
-  });
+  } catch (e) {}
 });
 
 app.delete('/delete/diagnosis/:pk', (req, res) => {
-  pool.getConnection((err, connection) => {
-    if (err) throw err;
+  try {
     console.log(req.params.pk)
     connection.query(
       'DELETE FROM `Діагноз` WHERE `id_діагноз` = ?',
@@ -259,5 +244,11 @@ app.delete('/delete/diagnosis/:pk', (req, res) => {
         }
       }
     );
-  });
+  } catch (e) {}
 });
+app.get('/', (req, res) => {
+  res.send('працює');
+}) 
+
+module.exports = app;
+
