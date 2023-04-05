@@ -29,7 +29,7 @@ app.get('/doctor/', (req, res) => {
     connection.query(
       'SELECT * FROM `Лікар` WHERE 1;',
       (err, rows) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({ data: rows });
         } else {
@@ -46,7 +46,7 @@ app.post('/create/doctor/', (req, res) => {
     const values = req.body;
 
     connection.query('INSERT INTO `Лікар` SET ?', values, (err, rows) => {
-      connection.release();
+      
       if (!err) {
         res.status(200).json({
           message: `\`Лікар\` з даними ${JSON.stringify(values)} створено`,
@@ -65,7 +65,7 @@ app.delete('/delete/doctor/:pk', (req, res) => {
       'DELETE FROM `Лікар` WHERE `id_лікар` = ?',
       [req.params.pk],
       (err, _) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({
             message: `\`Лікар\` з id = [${req.params.pk}] видалено`,
@@ -86,7 +86,7 @@ app.get('/patient/', (req, res) => {
     connection.query(
       'SELECT * FROM `Пацієнт` WHERE 1;',
       (err, rows) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({ data: rows });
         } else {
@@ -103,7 +103,7 @@ app.post('/create/patient/', (req, res) => {
     const values = req.body;
 
     connection.query('INSERT INTO `Пацієнт` SET ?', values, (err, rows) => {
-      connection.release();
+      
       if (!err) {
         res.status(200).json({
           message: `\`Пацієнт\` з даними ${JSON.stringify(values)} створено`,
@@ -122,7 +122,7 @@ app.delete('/delete/patient/:pk', (req, res) => {
       'DELETE FROM `Пацієнт` WHERE `id_пацієнт` = ?',
       [req.params.pk],
       (err, _) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({
             message: `\`Пацієнт\` з id = [${req.params.pk}] видалено`,
@@ -143,7 +143,7 @@ app.get('/reception/', (req, res) => {
     connection.query(
       'SELECT * FROM `Прийом` WHERE 1;',
       (err, rows) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({ data: rows });
         } else {
@@ -159,7 +159,7 @@ app.post('/create/reception/', (req, res) => {
     const values = req.body;
 
     connection.query('INSERT INTO `Прийом` SET ?', values, (err, rows) => {
-      connection.release();
+      
       if (!err) {
         res.status(200).json({
           message: `\`Прийом\` з даними ${JSON.stringify(values)} створено`,
@@ -178,7 +178,7 @@ app.delete('/delete/reception/:pk', (req, res) => {
       'DELETE FROM `Прийом` WHERE `id_прийом` = ?',
       [req.params.pk],
       (err, _) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({
             message: `\`Прийом\` з id = [${req.params.pk}] видалено`,
@@ -199,7 +199,7 @@ app.get('/diagnosis/', (req, res) => {
     connection.query(
       'SELECT * FROM `Діагноз` WHERE 1;',
       (err, rows) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({ data: rows });
         } else {
@@ -215,7 +215,7 @@ app.post('/create/diagnosis/', (req, res) => {
     const values = req.body;
 
     connection.query('INSERT INTO `Діагноз` SET ?', values, (err, rows) => {
-      connection.release();
+      
       if (!err) {
         res.status(200).json({
           message: `\`Діагноз\` з даними ${JSON.stringify(values)} створено`,
@@ -234,7 +234,7 @@ app.delete('/delete/diagnosis/:pk', (req, res) => {
       'DELETE FROM `Діагноз` WHERE `id_діагноз` = ?',
       [req.params.pk],
       (err, _) => {
-        connection.release();
+        
         if (!err) {
           res.status(200).json({
             message: `\`Діагноз\` з id = [${req.params.pk}] видалено`,
