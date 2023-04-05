@@ -250,5 +250,5 @@ app.get('/', (req, res) => {
   res.send('працює');
 }) 
 
-module.exports = app;
+module.export = app;
 
